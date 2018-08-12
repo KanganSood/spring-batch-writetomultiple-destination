@@ -37,6 +37,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -96,8 +101,7 @@ class CustomItemReader implements ItemReader<PersonData> {
 	}
 
 	@Override
-	public PersonData read() throws Exception, UnexpectedInputException, ParseException,
-			NonTransientResourceException {
+	public PersonData read()  {
 		if (this.data.hasNext()) {
 			return this.data.next();
 		}
@@ -207,6 +211,7 @@ class MainController {
 
 }
 
+@Component
 class AddressItemWriter implements ItemWriter<PersonData> {
 
     private JdbcTemplate jdbcTemplate;;
